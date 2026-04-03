@@ -1,0 +1,14 @@
+langchain
+langchain-groq
+langchain-community
+langgraph
+pandas
+numpy
+plotly
+matplotlib
+faiss-cpu
+tiktoken
+streamlit
+python-dotenv
+openpyxl
+tabulate
