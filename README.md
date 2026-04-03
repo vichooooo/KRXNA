@@ -46,3 +46,32 @@ That's what makes it different from a basic chatbot.
 ---
 
 ## How It Works
+User asks question
+↓
+Router Node        ← decides: query / chart / summary
+↓
+Executes tool       ← pandas query or plotly chart
+↓
+Validator Node      ← is the answer good enough?
+↓
+good → Answer      ← shown to user with reasoning
+weak → retry       ← loops back with more context
+
+## Project Structure
+krxna/
+├── app.py                  ← Streamlit frontend
+├── agent/
+│   ├── graph.py            ← LangGraph StateGraph
+│   ├── nodes.py            ← Router, Query, Chart, Validator nodes
+│   ├── tools.py            ← Pandas + Plotly tools
+│   └── state.py            ← Shared agent state
+├── utils/
+│   └── loader.py           ← CSV loading + preprocessing
+├── data/                   ← Drop your CSVs here
+├── assets/                 ← Logo and static files
+├── Dockerfile              ← For HuggingFace deployment
+└── requirements.txt
+
+
+
+
