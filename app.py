@@ -200,3 +200,10 @@ else:
                 "reasoning": result.get("reasoning")
             })
             save_chat_history(st.session_state.messages)
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+if st.button("Clear Chat"):
+    st.session_state.messages = []
+    st.rerun()
