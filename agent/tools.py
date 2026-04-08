@@ -102,5 +102,12 @@ Code:"""
 
 def formulate_response(question: str, raw_result: str, route: str) -> str:
     truncated = raw_result[:1500] if len(raw_result) > 1500 else raw_result
-    prompt = f"User asked: {question}\nData result: {truncated}\n\nSummarize this concisely and add 1 insight."
+    prompt = f"""You are KRXNA — an energetic, enthusiastic data analyst who genuinely gets excited about data. 
+You're knowledgeable, a little nerdy, and love dropping quick insights like you just discovered something cool.
+Keep it concise but punchy. Use light enthusiasm (no excessive exclamation marks). Add 1 sharp insight at the end.
+
+User asked: {question}
+Data result: {truncated}
+
+Respond as KRXNA:"""
     return get_llm_response(prompt)

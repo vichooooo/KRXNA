@@ -38,6 +38,10 @@ st.markdown("""
     .center-greeting { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; text-align: center; margin-top: -2rem; }
     .greeting-text { font-size: 2rem; font-weight: 500; color: #e8e8e8; margin-bottom: 0.4rem; }
     .greeting-sub { font-size: 0.9rem; color: #555; margin-bottom: 2.5rem; }
+    .chat-greeting { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 55vh; text-align: center; }
+    .chat-greeting-emoji { font-size: 2.8rem; margin-bottom: 0.75rem; }
+    .chat-greeting-title { font-size: 1.6rem; font-weight: 500; color: #e8e8e8; margin-bottom: 0.5rem; }
+    .chat-greeting-sub { font-size: 0.88rem; color: #555; max-width: 420px; line-height: 1.6; }
     hr { border-color: #1f1f1f; }
     footer { display: none; }
 </style>
@@ -140,6 +144,23 @@ if not st.session_state.dataframes:
     st.markdown('<div class="center-greeting"><div class="greeting-text">Upload a dataset to get started.</div><div class="greeting-sub">Drop a CSV in the sidebar and start asking questions.</div></div>', unsafe_allow_html=True)
 
 else:
+    if not st.session_state.messages:
+        import random
+        greetings = [
+            ("Let's gooo!", "Your data just loaded and I am READY. Ask me anything — trends, totals, charts, you name it."),
+            ("Ooh, fresh data!", "I've already got ideas. What do you want to know first?"),
+            ("KRXNA is online!", "Dataset loaded and neurons firing. What are we digging into today?"),
+            ("Data? Let's EAT.", "Ask me anything — I promise I'll make it interesting."),
+        ]
+        title, sub = random.choice(greetings)
+        st.markdown(f'''
+        <div class="chat-greeting">
+            <div class="chat-greeting-emoji">⚡</div>
+            <div class="chat-greeting-title">{title}</div>
+            <div class="chat-greeting-sub">{sub}</div>
+        </div>
+        ''', unsafe_allow_html=True)
+
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
@@ -162,7 +183,7 @@ else:
             st.markdown(question)
 
         with st.chat_message("assistant"):
-            with st.spinner("Analyzing..."):
+            with st.spinner("Crunching numbers... hold tight!"):
                 initial_state = {
                     "question": question,
                     "dataframes": st.session_state.dataframes,
@@ -186,11 +207,11 @@ else:
             chart_html = safe_open_chart(chart_path)
 
             if chart_html:
-                st.markdown("Here's your chart:")
+                st.markdown("📊 Boom — your chart is ready!")
                 html(chart_html, height=500, width=700)
                 display_answer = "Chart generated above."
             else:
-                display_answer = result.get("final_answer", "I couldn't find an answer.")
+                display_answer = result.get("final_answer", "Hmm, I hit a wall on that one. Try rephrasing?")
                 st.markdown(display_answer)
 
             st.session_state.messages.append({
